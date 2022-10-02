@@ -1,14 +1,9 @@
-from itertools import chain
-
 from re import U
 from bs4 import BeautifulSoup
-import requests
 
 import asyncio
 
 from pprint import pprint
-
-import os
 
 from requests_html import HTMLSession
 from requests_html import AsyncHTMLSession
