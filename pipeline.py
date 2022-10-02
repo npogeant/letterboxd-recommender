@@ -35,6 +35,8 @@ def generate_user_data(username):
     with open('data/user_movies.txt', 'w') as f:
         for movie in user_data:
             f.write(f"{movie}\n")
+            
+    print("User movies txt saved...")
     
     if len(user_data) >= 72:
         user_data = user_data[:72]
@@ -42,6 +44,8 @@ def generate_user_data(username):
         pass
     
     user_tmdb_data = get_movie_data(user_data)
+    
+    print("User movies tmdb data generated...")
 
     df = pd.DataFrame(user_tmdb_data)
     nan_value = float("NaN")
@@ -49,18 +53,26 @@ def generate_user_data(username):
     df.dropna(subset = ["genres"], inplace=True)
     df.to_csv('data/user_tmdb_data.csv', index=None)
     
+    print("User movies tmdb data saved...")
+    
 def generate_popular_movies_data():
     popular_movies_data = get_popular_movies_this_week()
 
     popular_movies_poster = json.dumps(popular_movies_data)
     with open('data/popular_movies_poster.json', 'w') as f:
         f.write(popular_movies_poster)
+        
+    print("Popular movies picture links saved...")
 
     popular_movies_list = [movie_object['movie_id'] for movie_object in popular_movies_data]
     popular_movies_tmdb_data = get_movie_data(popular_movies_list)
+    
+    print("Popular movies data generated...")
 
     df = pd.DataFrame(popular_movies_tmdb_data)
     df.to_csv('data/popular_movies_tmdb_data.csv', index=None)
+    
+    print("Popular movies data saved...")
     
 def get_top_5_recommendations():
     user_tmdb_data, popular_movies_tmdb_data = import_data('data/user_movies.txt', 'data/user_tmdb_data.csv', 'data/popular_movies_tmdb_data.csv')
