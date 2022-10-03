@@ -3,7 +3,7 @@ from itertools import chain
 from re import U
 from bs4 import BeautifulSoup
 import requests
-import json
+import json, time
 
 import asyncio
 from aiohttp import ClientSession
@@ -21,11 +21,13 @@ if os.getcwd().endswith("/utils"):
     from get_popular_movies import get_popular_movies_this_week # type: ignore
     from get_movie_data import get_movie_data # type: ignore
     from recsys_model import import_data,data_preprocessing,get_recommendations # type: ignore
+    from database_functions import get_popular_movies_from_DB # type: ignore
 else:
     from utils.get_user_preferred_movies import get_user_data
     from utils.get_popular_movies import get_popular_movies_this_week
     from utils.get_movie_data import get_movie_data
     from utils.recsys_model import import_data,data_preprocessing,get_recommendations
+    from utils.database_functions import get_popular_movies_from_DB 
 
 tmdb_key = (os.getenv('API_KEY'))
 
@@ -55,8 +57,14 @@ def generate_user_data(username):
     
     print("User movies tmdb data saved...")
     
-def generate_popular_movies_data():
-    popular_movies_data = get_popular_movies_this_week()
+def generate_popular_movies_data(data_from_db=True):
+    
+    if data_from_db == False:
+        popular_movies_data = get_popular_movies_this_week()
+    else:
+        popular_movies_data = get_popular_movies_from_DB()
+        
+    popular_movies_data = [dict(movie_tuple) for movie_tuple in popular_movies_data]
 
     popular_movies_poster = json.dumps(popular_movies_data)
     with open('data/popular_movies_poster.json', 'w') as f:
@@ -65,8 +73,14 @@ def generate_popular_movies_data():
     print("Popular movies picture links saved...")
 
     popular_movies_list = [movie_object['movie_id'] for movie_object in popular_movies_data]
-    popular_movies_tmdb_data = get_movie_data(popular_movies_list)
-    
+
+    popular_movies_tmdb_data = []
+    if len(popular_movies_list) > 100:
+        for i in range(0, len(popular_movies_list), 50):
+            popular_movies_tmdb_data += get_movie_data(popular_movies_list[i:i+50])
+            
+    print(len(popular_movies_tmdb_data))
+
     print("Popular movies data generated...")
 
     df = pd.DataFrame(popular_movies_tmdb_data)

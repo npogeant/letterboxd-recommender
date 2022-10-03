@@ -10,6 +10,12 @@ from requests_html import AsyncHTMLSession
 
 from pyppeteer import launch
 
+import os
+if os.getcwd().endswith("/utils"):
+    from database_functions import send_popular_movies_to_DB
+else:
+    from utils.database_functions import send_popular_movies_to_DB
+
 async def fetch(url, session):
         browser = await launch({
             'ignoreHTTPSErrors': True,
@@ -98,3 +104,4 @@ def get_popular_movies_this_week():
 
 if __name__ == '__main__':
   results = get_popular_movies_this_week()
+  send_popular_movies_to_DB(results)
