@@ -10,5 +10,5 @@ requests
 requests_html
 scikit_learn
 streamlit
-psycopg2
+psycopg2-binary
 SQLAlchemy
