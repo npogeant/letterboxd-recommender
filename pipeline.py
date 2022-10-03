@@ -34,11 +34,15 @@ tmdb_key = (os.getenv('API_KEY'))
 def generate_user_data(username):
     user_data = get_user_data(username)
     
+    user_movies = [movie['movie_id'] for movie in user_data]
+    
     with open('data/user_movies.txt', 'w') as f:
-        for movie in user_data:
+        for movie in user_movies:
             f.write(f"{movie}\n")
             
     print("User movies txt saved...")
+    
+    user_data = [movie['movie_id'] for movie in user_data if movie['rating_val'] > 7]
     
     if len(user_data) >= 72:
         user_data = user_data[:72]
