@@ -1,4 +1,4 @@
-# Movie Recommender System - Python & Letterboxd [![web app](https://img.shields.io/badge/streamlit-letterboxd_recsys-blue?style=flat-square)](https://npogeant-letterboxd-recommender-web-app-hyud2u.streamlitapp.com/) [![article](https://img.shields.io/badge/medium-letterboxd_recsys-black?style=flat-square)]()
+# Movie Recommender System - Python & Letterboxd [![web app](https://img.shields.io/badge/streamlit-letterboxd_recsys-blue?style=flat-square)](https://npogeant-letterboxd-recommender-web-app-hyud2u.streamlitapp.com/) [![article](https://medium.com/mlearning-ai/python-letterboxd-build-a-content-filtering-rec-sys-from-scratch-7648b25bccdc)]()
 > A Content Based Filtering Recommender System on Letterboxd Movies
 
 The idea of this application is to provide **recommendations** of popular movies based on a user tastes.
