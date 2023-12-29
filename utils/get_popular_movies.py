@@ -104,4 +104,4 @@ def get_popular_movies_this_week():
 
 if __name__ == '__main__':
   results = get_popular_movies_this_week()
-  send_popular_movies_to_DB(results)
+#   send_popular_movies_to_DB(results)

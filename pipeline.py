@@ -29,7 +29,7 @@ else:
     from utils.recsys_model import import_data,data_preprocessing,get_recommendations
     from utils.database_functions import get_popular_movies_from_DB 
 
-tmdb_key = (os.getenv('API_KEY'))
+tmdb_key = (os.getenv('TMDB_API_KEY'))
 
 def generate_user_data(username):
     user_data = get_user_data(username)
@@ -102,5 +102,5 @@ def get_top_5_recommendations():
 
 if __name__ == '__main__':
     generate_user_data('oxlade8')
-    generate_popular_movies_data()
+    generate_popular_movies_data(data_from_db=False)
     get_top_5_recommendations()

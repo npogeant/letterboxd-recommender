@@ -14,7 +14,7 @@ load_dotenv()
 
 import os
 
-tmdb_key = (os.getenv('API_KEY'))
+tmdb_key = (os.getenv('TMDB_API_KEY'))
 
 async def fetch(url, session, input_data={}):
     async with session.get(url) as r:
@@ -133,4 +133,5 @@ def get_movie_data(movie_list):
     return future.result()
       
 if __name__ == '__main__':
-    get_movie_data(['skyfall', 'spider-man-2'])
+    data = get_movie_data(['skyfall', 'spider-man-2'])
+    print(data)

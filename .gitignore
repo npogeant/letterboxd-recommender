@@ -6,3 +6,13 @@ __pycache__/
 *.py[cod]
 
 db.ipynb
+
+.venv/
+
+.vscode
+
+/config.local
+/tmp
+/cache
+
+/data

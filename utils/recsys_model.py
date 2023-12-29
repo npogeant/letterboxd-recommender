@@ -12,13 +12,20 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 
+def safe_literal_eval(val):
+    try:
+        return literal_eval(val)
+    except (ValueError, SyntaxError):
+        return val  # return the original value if it can not be evaluated
+
+
 def import_data(text_user_movies, csv_user_tmdb_data, csv_popular_movies_tmdb_data):
     with open(text_user_movies) as f:
         movies = f.read().splitlines()
         
-    user_tmdb_data = pd.read_csv(csv_user_tmdb_data, converters={'genres': literal_eval})
+    user_tmdb_data = pd.read_csv(csv_user_tmdb_data, converters={'genres': safe_literal_eval})
 
-    popular_movies_tmdb_data = pd.read_csv(csv_popular_movies_tmdb_data, converters={'genres': literal_eval})
+    popular_movies_tmdb_data = pd.read_csv(csv_popular_movies_tmdb_data, converters={'genres': safe_literal_eval})
     already_seen_movies = list((set(popular_movies_tmdb_data['movie_id']).intersection(movies)))
     popular_movies_tmdb_data = popular_movies_tmdb_data[~popular_movies_tmdb_data['movie_id'].str.contains('|'.join(already_seen_movies))]
     
@@ -111,6 +118,7 @@ def data_preprocessing(user_tmdb_data, popular_movies_tmdb_data):
 
     user_profile = pd.concat([user_movie_id, user_preferred_decade, user_reconstituted_overview, user_preferred_length, user_preferred_language, user_preferred_genre], axis=1)
     
+    popular_movies_tmdb_data = popular_movies_tmdb_data.dropna(subset=['overview']).copy() # drop rows with NaN values in the overview column
     
     popular_movies_tmdb_data['decade'] = popular_movies_tmdb_data['year_released'] - popular_movies_tmdb_data['year_released'].astype(str).str[-1].astype(int)
 

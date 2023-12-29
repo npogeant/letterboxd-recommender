@@ -12,3 +12,5 @@ scikit_learn
 streamlit
 psycopg2-binary
 SQLAlchemy
+dvc
+dvc[s3]
