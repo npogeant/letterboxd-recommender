@@ -6,7 +6,7 @@ import json, base64
 from pipeline import generate_user_data,generate_popular_movies_data,get_top_5_recommendations
 
 # Add a background
-@st.experimental_memo
+@st.cache_data
 def get_img_as_base64(file):
     with open(file, "rb") as f:
         data = f.read()
@@ -91,7 +91,7 @@ def predict(username):
     
     generate_user_data(username)
     generate_popular_movies_data()
-    recommendations = get_top_5_recommendations()
+    recommendations = get_top_5_recommendations(path_to_data='data/')
 
     return recommendations
 

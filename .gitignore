@@ -11,8 +11,4 @@ db.ipynb
 
 .vscode
 
-/config.local
-/tmp
-/cache
-
-/data
+.streamlit/

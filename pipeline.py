@@ -61,7 +61,7 @@ def generate_user_data(username):
     
     print("User movies tmdb data saved...")
     
-def generate_popular_movies_data(data_from_db=True):
+def generate_popular_movies_data(data_from_db=False):
     
     if data_from_db == False:
         popular_movies_data = get_popular_movies_this_week()
@@ -92,8 +92,8 @@ def generate_popular_movies_data(data_from_db=True):
     
     print("Popular movies data saved...")
     
-def get_top_5_recommendations():
-    user_tmdb_data, popular_movies_tmdb_data = import_data('data/user_movies.txt', 'data/user_tmdb_data.csv', 'data/popular_movies_tmdb_data.csv')
+def get_top_5_recommendations(path_to_data='data/'):
+    user_tmdb_data, popular_movies_tmdb_data = import_data(f'{path_to_data}user_movies.txt', f'{path_to_data}user_tmdb_data.csv', f'{path_to_data}popular_movies_tmdb_data.csv')
     concat_data = data_preprocessing(user_tmdb_data, popular_movies_tmdb_data)
     top_five_recommendations_id = get_recommendations(concat_data)
     print(top_five_recommendations_id)
