@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.squiggly {
+  stroke: blue;
+  stroke-width: 2px;
+  fill: none;
+}
