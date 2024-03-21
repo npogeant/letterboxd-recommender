@@ -1,0 +1,12 @@
+aiohttp
+beautifulsoup4
+nltk
+numpy
+pandas
+Pillow
+pyppeteer
+python-dotenv
+requests
+requests-html
+scikit-learn
+boto3
