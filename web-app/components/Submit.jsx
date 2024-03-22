@@ -33,12 +33,15 @@ export const Submit = () => {
     setIsLoading(true);
     setShowItems(false);
 
+    const PATH = process.env.NEXT_PUBLIC_API_PATH || process.env.API_PATH || 'default_path';
+    const TOKEN = process.env.NEXT_PUBLIC_API_TOKEN || process.env.API_TOKEN || 'default_token';
+
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_PATH}/recommend`, {
+      const response = await fetch(`${PATH}/recommend`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': process.env.NEXT_PUBLIC_API_TOKEN
+          'Authorization': TOKEN
         },
         body: JSON.stringify({ username: username}), // Pass username in the request body
       });
