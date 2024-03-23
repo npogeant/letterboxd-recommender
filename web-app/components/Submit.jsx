@@ -33,8 +33,8 @@ export const Submit = () => {
     setIsLoading(true);
     setShowItems(false);
 
-    const PATH = process.env.NEXT_PUBLIC_API_PATH || process.env.API_PATH || 'default_path';
-    const TOKEN = process.env.NEXT_PUBLIC_API_TOKEN || process.env.API_TOKEN || 'default_token';
+    const PATH = process.env.API_PATH || 'default_path';
+    const TOKEN = process.env.API_TOKEN || 'default_token';
 
     try {
       const response = await fetch(`${PATH}/recommend`, {
