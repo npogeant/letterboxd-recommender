@@ -1,0 +1,8 @@
+aiohttp
+beautifulsoup4
+Pillow
+pyppeteer
+python-dotenv
+requests
+requests-html
+boto3

@@ -1,0 +1,24 @@
+name: Run Python Script
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  run_python_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r recommender-system/popular_movies_lambda/requirements.txt  # Install any dependencies your script requires
+
+      - name: Run Python script
+        run: python recommender-system/popular_movies_lambda/get_popular_movies.py  # Replace `path/to/your/script.py` with the path to your Python script

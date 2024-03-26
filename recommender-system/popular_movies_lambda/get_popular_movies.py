@@ -1,6 +1,8 @@
 from re import U
 from bs4 import BeautifulSoup
 
+import os, subprocess
+
 import asyncio
 
 from pprint import pprint
@@ -11,16 +13,17 @@ from requests_html import AsyncHTMLSession
 from pyppeteer import launch
 
 async def fetch(url, session):
-        browser = await launch({
-            'ignoreHTTPSErrors': True,
-            'headless': True,
-            'handleSIGINT': False,
-            'handleSIGTERM': False,
-            'handleSIGHUP': False
-        })
-        session._browser = browser
-        response = session.get(url)
-        return await response
+    browser = await launch({
+        'ignoreHTTPSErrors': True,
+        'headless': True,
+        'handleSIGINT': False,
+        'handleSIGTERM': False,
+        'handleSIGHUP': False,
+        'userDataDir': '/tmp'
+    })
+    session._browser = browser
+    response = session.get(url)
+    return await response
 
 async def generate_movies_operations(response):
     
@@ -98,3 +101,4 @@ def get_popular_movies_this_week():
 
 if __name__ == '__main__':
   results = get_popular_movies_this_week()
+  print(results)
