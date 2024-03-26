@@ -1,9 +1,8 @@
-name: Run Python Script
+name: Update Popular Movies in s3
 
 on:
-  push:
-    branches:
-      - master
+  schedule:
+    - cron: '0 9 * * 1'  # Runs the workflow at 09:00 on Monday
 
 jobs:
   run_python_script:
@@ -22,3 +21,8 @@ jobs:
 
       - name: Run Python script
         run: python recommender-system/popular_movies_lambda/get_popular_movies.py  # Replace `path/to/your/script.py` with the path to your Python script
+
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}

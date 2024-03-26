@@ -6,3 +6,4 @@ python-dotenv
 requests
 requests-html
 boto3
+pandas

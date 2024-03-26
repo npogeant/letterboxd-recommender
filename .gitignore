@@ -9,6 +9,10 @@ db.ipynb
 
 .venv/
 
+.ruff_cache
+
+data/
+
 .vscode
 
 .streamlit
@@ -49,3 +53,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+recommender-system/popular_movies_lambda/popular_movies_poster.json
+recommender-system/popular_movies_lambda/popular_movies_tmdb_data.csv
