@@ -43,7 +43,7 @@ async def fetch(url, session):
 async def generate_movies_operations(response):
     
     # Parse ratings page response for each rating/review, use lxml parser for speed
-    await response.html.arender(wait=5, sleep=5)
+    await response.html.arender(wait=15, sleep=5)
     soup = BeautifulSoup(response.html.raw_html, 'html.parser')
     
     movies = soup.findAll("li", attrs={"class": "listitem poster-container"})
