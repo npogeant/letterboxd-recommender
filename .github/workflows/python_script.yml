@@ -1,6 +1,7 @@
 name: Update Popular Movies in s3
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 9 * * 1'  # Runs the workflow at 09:00 on Monday
 
