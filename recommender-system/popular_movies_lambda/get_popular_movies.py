@@ -12,6 +12,19 @@ from requests_html import AsyncHTMLSession
 
 from pyppeteer import launch
 
+# async def fetch(url, session):
+#     browser = await launch({
+#         'ignoreHTTPSErrors': True,
+#         'headless': True,
+#         'handleSIGINT': False,
+#         'handleSIGTERM': False,
+#         'handleSIGHUP': False,
+#         'userDataDir': '/tmp'
+#     })
+#     session._browser = browser
+#     response = session.get(url)
+#     return await response
+
 async def fetch(url, session):
     browser = await launch({
         'ignoreHTTPSErrors': True,
@@ -22,6 +35,8 @@ async def fetch(url, session):
         'userDataDir': '/tmp'
     })
     session._browser = browser
+    page = await browser.newPage()
+    await page.goto(url, {'timeout': 30000})  # Increase timeout to 30 seconds
     response = session.get(url)
     return await response
 
