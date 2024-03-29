@@ -10,4 +10,3 @@ requests
 requests-html
 scikit-learn
 boto3
-flask

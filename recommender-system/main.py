@@ -1,29 +1,34 @@
-import json
-
 import logging
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
+from flask import Flask, request, jsonify
 from modules import init, MODELS, FEATURES
 from modules.table_utils import import_data
+
+# Initialize Flask application
+app = Flask(__name__)
+
+# Initialize logger
+logging.basicConfig(level=logging.INFO)
+
+# Initialize your application
 init()
 
+# Define endpoint path
 POST_REC_PATH = "/recommend"
 
+# Function to perform recommendations
 def recommend_item(username):
-
     name = 'similarity_model'
 
-    logging.info('Importing data...')
+    # Import data
     user_tmdb_data, popular_movies_tmdb_data, popular_movies_poster = import_data(username)
 
-    logging.info('Building the model...')
+    # Build the model
     model = MODELS[name]
 
     encoder = FEATURES.get(model.FEATURES)
     res = encoder.preprocess(user_tmdb_data, popular_movies_tmdb_data)
 
-    logging.info('Performing recommendations...')
+    # Perform recommendations
     top_n_rec = model.fit(res['data'])
 
     mv = popular_movies_tmdb_data.set_index('movie_id').to_dict('index')
@@ -33,45 +38,42 @@ def recommend_item(username):
     rec_date = [mv[name]['release_date'][:4] for name in rec_name]
     rec_image = [poster['image_url'] for name in rec_name for poster in popular_movies_poster if poster['movie_id'] == name]    
 
-    return {"movies": rec_name,
-            "title": rec_title,
-            "date": rec_date,
-            "images": rec_image}
+    return {
+        "movies": rec_name,
+        "title": rec_title,
+        "date": rec_date,
+        "images": rec_image
+    }
 
-def handler(event, context):
+@app.route('/')
+def test():
+    return "Hello World"
+
+# Define endpoint handler
+@app.route(POST_REC_PATH, methods=['POST'])
+def get_recommendation():
     try:
-        # Validate event structure
-        if 'rawPath' not in event or 'body' not in event:
-            return {"error": "Invalid request structure"}
+        # Parse request body
+        body = request.json
+        if not body:
+            return jsonify({"error": "Request body is empty"}), 400
 
-        if event['rawPath'] == POST_REC_PATH:
-            logging.info('Received a request to /recommend')
+        # Validate required parameters
+        if 'username' not in body:
+            return jsonify({"error": "Username not provided"}), 400
 
-            # Parse the request body
-            body = event['body']   
-            if not body:
-                return {"error": "Request body is empty"}
+        username = body['username']
 
-            # Convert the body to JSON format
-            try:
-                body_json = json.loads(body)
-            except json.JSONDecodeError:
-                return {"error": "Invalid JSON in request body"}
+        # Call the recommendation function
+        result = recommend_item(username)
 
-            # Validate required parameters
-            if 'username' not in body_json:
-                return {"error": "Username not provided"}
+        # Return recommendations
+        return jsonify(result), 200
 
-            username = body_json['username']
-
-            # Call the recommendation function
-            result = recommend_item(username)
-
-            logging.info('Here are the recommendations...')
-
-            return result
-        else:
-            return {"error": "Unsupported path"}
     except Exception as e:
         logging.error(f"Error in handler: {str(e)}")
-        return {"error": "Internal server error"}
+        return jsonify({"error": "Internal server error"}), 500
+
+# Main function
+if __name__ == '__main__':
+    app.run(host="0.0.0.0",port=5000)
