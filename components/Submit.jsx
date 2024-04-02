@@ -33,18 +33,18 @@ export const Submit = () => {
     setIsLoading(true);
     setShowItems(false);
 
-    const PATH = process.env.API_PATH || 'default_path';
-    const TOKEN = process.env.API_TOKEN || 'default_token';
-
     try {
-      const response = await fetch(`${PATH}/recommend`, {
+      // const response = await fetch(`${PATH}/recommend`, {
+      const response = await fetch(`/api/recommend`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': TOKEN
+          'Accept': 'application/json',
+          'Connection': 'keep-alive',
         },
         body: JSON.stringify({ username: username}), // Pass username in the request body
       });
+
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
