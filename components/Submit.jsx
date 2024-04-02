@@ -34,7 +34,6 @@ export const Submit = () => {
     setShowItems(false);
 
     try {
-      // const response = await fetch(`${PATH}/recommend`, {
       const response = await fetch(`/api/recommend`, {
         method: "POST",
         headers: {
@@ -42,7 +41,7 @@ export const Submit = () => {
           'Accept': 'application/json',
           'Connection': 'keep-alive',
         },
-        body: JSON.stringify({ username: username}), // Pass username in the request body
+        body: JSON.stringify({ username: username}),
       });
 
       if (!response.ok) {
