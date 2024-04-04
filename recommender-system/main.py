@@ -31,6 +31,7 @@ def recommend_item(username):
     # Perform recommendations
     top_n_rec = model.fit(res['data'])
 
+    popular_movies_tmdb_data = popular_movies_tmdb_data.drop_duplicates(subset=['movie_id'])
     mv = popular_movies_tmdb_data.set_index('movie_id').to_dict('index')
 
     rec_name = [res['movie_ids'][rec] for rec in top_n_rec]
